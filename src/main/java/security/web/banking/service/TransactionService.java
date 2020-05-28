@@ -1,6 +1,5 @@
 package security.web.banking.service;
 
-import org.springframework.stereotype.Service;
 import security.web.banking.domain.Transaction;
 import security.web.banking.forms.TransactionForm;
 

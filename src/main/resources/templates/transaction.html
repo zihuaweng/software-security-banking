@@ -15,7 +15,6 @@
                 <form th:object="${transactionForm}" th:action="@{/}" method="post">
                     <div class="panel-heading"><h3 class="panel-title"><strong>Transaction</strong></h3></div>
                     <div class="panel-body">
-
                         <div>
                             <p>Current Amount</p>
                         </div>
@@ -33,7 +32,7 @@
                             <input type="amountString" class="form-control" id="amountString"
                                    name="amountString" placeholder="Amount to deposit or withdraw"
                                    th:field="*{amountString}" th:errorclass="is-invalid" required>
-                            <p style="color:red" th:if="${#fields.hasErrors('amountString')}"
+                            <p class="alert alert-danger" th:if="${#fields.hasErrors('amountString')}"
                                th:errors="*{amountString}">Incorrect data</p>
                         </div>
                         <button type="submit" class="btn btn-md btn-primary btn-block"
@@ -41,18 +40,13 @@
                     </div>
                 </form>
                 <form th:action="@{/}" method="post">
-                    <div th:if="${param.error}">
-                        <div class="alert alert-danger">
-                            Invalid username and password.
-                        </div>
-                    </div>
                     <div class="panel-heading"><h3 class="panel-title"><strong>Transaction History</strong></h3></div>
                     <div class="panel-body">
                         <table class="table table-striped text-center">
                             <thead th:if="${!#lists.isEmpty(allTransactions)}">
                             <tr>
                                 <th class="text-center">UserName</th>
-                                <th class="text-center">Transaction Type</th>
+                                <th class="text-center">Operation</th>
                                 <th class="text-center">Amount</th>
                             </tr>
                             </thead>
@@ -65,6 +59,10 @@
                             </tr>
                             </tbody>
                         </table>
+                        <div th:if="${error}">
+                            <div class="alert alert-danger" th:text="${error}">
+                            </div>
+                        </div>
                         <button type="submit" class="btn btn-md btn-primary btn-block"
                                 name="clearTransaction">Clear Transaction History</button>
                     </div>

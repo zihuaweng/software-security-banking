@@ -16,6 +16,8 @@ public class TransactionForm {
     private double userCurrentAmount;
     private String string;
 
+    public TransactionForm() {}
+
     public String getAmountString() {
         return amountString;
     }
@@ -62,5 +64,10 @@ public class TransactionForm {
 
     public void setNumString(String string) {
         this.string = string;
+    }
+
+    public void reset() {
+        this.amountString = null;
+        this.string = null;
     }
 }

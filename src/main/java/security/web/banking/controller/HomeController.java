@@ -52,7 +52,7 @@ public class HomeController {
     private TransactionForm transactionForm;
 
     @ModelAttribute("transactionForm")
-    public TransactionForm getAddCardForm() {
+    public TransactionForm getTransactionForm() {
         return transactionForm;
     }
 
@@ -80,8 +80,10 @@ public class HomeController {
                               HttpServletResponse response) {
         transactionForm.setUserId(customUserDetails.getId());
         transactionForm.setUserCurrentAmount(customUserDetails.getAmount());
+        transactionForm.reset();
         // create jwt
         Claims claims = Jwts.claims().setIssuedAt(Date.from(Instant.now().plus(Duration.ofDays(10))));
+        claims.put("user", customUserDetails.getUsername());
         String token = Jwts.builder()
                 .setClaims(claims)
                 .signWith(SignatureAlgorithm.HS512, JWT_PASSWORD)
@@ -96,39 +98,34 @@ public class HomeController {
     @RequestMapping(value = "/", method = RequestMethod.POST, params = "submitTransaction")
     public String processTransaction(@Valid @ModelAttribute("transactionForm") TransactionForm transactionForm, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
+            transactionForm.reset();
             return "transaction";
         }
         transactionService.processTransaction(transactionForm);
-        model.addAttribute("successfulTransaction", "successfulTransaction"); // todo
-        logger.info("Transaction succeed.");
+        logger.info("Transaction succeeded.");
         return "redirect:/";
     }
 
 
     @RequestMapping(value = "/", method = RequestMethod.POST, params = "clearTransaction")
     public String clearTransactionHistory(@CookieValue(value = "access_token") String accessToken,
-                                          BindingResult bindingResult,
                                           @AuthenticationPrincipal CustomUserDetails customUserDetails, Model model) {
-        if (bindingResult.hasErrors()) {
-            return "transaction";
-        }
         if (!StringUtils.isEmpty(accessToken)) {
             try {
                 Jwt jwt = Jwts.parser().setSigningKey(JWT_PASSWORD).parse(accessToken);
                 Claims claims = (Claims) jwt.getBody();
-                boolean hasSuperPower = Boolean.valueOf((String) claims.get("superPower"));
-                if (hasSuperPower) {
+                boolean root = Boolean.parseBoolean((String) claims.get("root"));
+                if (root) {
                     transactionService.deleteTransactionsByUserId(customUserDetails.getId());
-                    logger.info("Clear transaction succeed.");
+                    logger.info("Clear transaction succeeded.");
                     return "redirect:/";
                 }
-            } catch (JwtException e) {
-                model.addAttribute("error", "You are not allow to clear transactions"); // todo
-                return "redirect:/";
+            } catch (Exception e) {
+                logger.info(e.toString());
             }
         }
-        model.addAttribute("error", "You are not allow to clear transactions"); // todo
-        return "redirect:/";
+        model.addAttribute("error", "You are not allowed to clear transactions");
+        return "transaction";
     }
 
     @GetMapping("/logout")

@@ -1,5 +1,7 @@
 package security.web.banking.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,7 +13,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import security.web.banking.domain.User;
 import security.web.banking.forms.UserCreateForm;
-import security.web.banking.security.SecurityService;
 import security.web.banking.service.UserService;
 import security.web.banking.validator.UserValidator;
 
@@ -19,9 +20,11 @@ import javax.validation.Valid;
 
 @Controller
 public class UserController {
+
+    private static final Logger logger = LoggerFactory.getLogger(UserController.class);
+
     @Autowired
     private UserService userService;
-
     @Autowired
     private UserValidator userValidator;
 
@@ -42,6 +45,7 @@ public class UserController {
         }
 
         User user = userService.registerUser(userForm);
+        logger.info("Registration succeeded.");
 //        securityService.autoLogin(user);
         return "redirect:/login";
     }

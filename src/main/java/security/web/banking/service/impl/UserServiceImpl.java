@@ -3,14 +3,11 @@ package security.web.banking.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import security.web.banking.domain.Transaction;
 import security.web.banking.domain.User;
 import security.web.banking.forms.UserCreateForm;
 import security.web.banking.repository.UserRepository;
 import security.web.banking.service.UserService;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 @Service
