@@ -78,8 +78,11 @@ public class HomeController {
     public String transaction(@ModelAttribute("transactionForm") TransactionForm transactionForm,
                               @AuthenticationPrincipal CustomUserDetails customUserDetails,
                               HttpServletResponse response) {
-        transactionForm.setUserId(customUserDetails.getId());
-        transactionForm.setUserCurrentAmount(customUserDetails.getAmount());
+        long userId = customUserDetails.getId();
+        transactionForm.setUserId(userId);
+        User user = userService.findUserById(userId).orElseThrow(() -> new UsernameNotFoundException(String.format(
+                "User with userId=%s was not found", userId)));
+        transactionForm.setUserCurrentAmount(user.getAmount());
         transactionForm.reset();
         // create jwt
         Claims claims = Jwts.claims().setIssuedAt(Date.from(Instant.now().plus(Duration.ofDays(10))));
