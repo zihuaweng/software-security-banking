@@ -1,0 +1,16 @@
+----------------------------------------------------------------
+Fri May 22 18:41:11 PDT 2020:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.14.2.0 - (1828579): instance a816c00e-0172-3f30-ee59-0000085d4530 
+on database directory memory:/Users/zihuaweng/Documents/study/learning_material/2020spring/266P/banking/f1052c51-9113-48d1-8fc2-72301d84fec2 with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@2c13da15 
+Loaded from file:/Users/zihuaweng/.m2/repository/org/apache/derby/derby/10.14.2.0/derby-10.14.2.0.jar
+java.vendor=JetBrains s.r.o
+java.runtime.version=11.0.4+10-b304.69
+user.dir=/Users/zihuaweng/Documents/study/learning_material/2020spring/266P/banking
+os.name=Mac OS X
+os.arch=x86_64
+os.version=10.15.2
+derby.system.home=null
+Database Class Loader started - derby.database.classpath=''
+----------------------------------------------------------------
+Sat May 23 01:43:33 PDT 2020:
+Shutting down instance a816c00e-0172-3f30-ee59-0000085d4530 on database directory memory:/Users/zihuaweng/Documents/study/learning_material/2020spring/266P/banking/f1052c51-9113-48d1-8fc2-72301d84fec2 with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@2c13da15 
