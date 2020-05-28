@@ -11,4 +11,5 @@ public interface TransactionService {
     List<Transaction> findTransactionsByUserId(long id);
     Transaction findTransactionsById(long id);
     void processTransaction(TransactionForm transactionForm);
+    long deleteTransactionsByUserId(long id);
 }

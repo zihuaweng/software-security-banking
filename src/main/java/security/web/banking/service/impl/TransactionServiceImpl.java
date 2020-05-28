@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import security.web.banking.domain.Transaction;
 import security.web.banking.domain.TransactionType;
 import security.web.banking.domain.User;
@@ -18,6 +19,7 @@ import security.web.banking.utils.TransactionUtils;
 import java.util.List;
 
 @Service
+@Transactional
 public class TransactionServiceImpl implements TransactionService {
 
     private Logger logger = LoggerFactory.getLogger(TransactionServiceImpl.class);
@@ -65,5 +67,10 @@ public class TransactionServiceImpl implements TransactionService {
                 logger.info("Process withdraw successfully.");
                 break;
         }
+    }
+
+    @Override
+    public long deleteTransactionsByUserId(long id) {
+        return transactionRepository.deleteTransactionsByUserId(id);
     }
 }
