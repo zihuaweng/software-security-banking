@@ -14,6 +14,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import security.web.banking.auth.CustomUserDetails;
+import security.web.banking.domain.Transaction;
 import security.web.banking.domain.User;
 import security.web.banking.forms.TransactionForm;
 import security.web.banking.service.TransactionService;
@@ -23,6 +24,8 @@ import security.web.banking.validator.TransactionValidator;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.util.Collections;
+import java.util.List;
 
 @Controller
 public class HomeController {
@@ -49,9 +52,16 @@ public class HomeController {
     }
 
     @ModelAttribute("currentUser")
-    public User getCurrentUserCards(@AuthenticationPrincipal CustomUserDetails customUserDetails) {
+    public User getCurrentUser(@AuthenticationPrincipal CustomUserDetails customUserDetails) {
         long userId = customUserDetails.getId();
         return userService.findUserById(userId).orElseThrow(() -> new UsernameNotFoundException(String.format("User with userId=%s was not found", userId)));
+    }
+
+    @ModelAttribute("allTransactions")
+    public List<Transaction> getCurrentUserTransactions(@AuthenticationPrincipal CustomUserDetails customUserDetails) {
+        List<Transaction> transactions = transactionService.findTransactionsByUserId(customUserDetails.getId());
+        Collections.reverse(transactions);
+        return transactions;
     }
 
     @GetMapping("/")
@@ -62,7 +72,7 @@ public class HomeController {
         return "transaction";
     }
 
-    @PostMapping("/")
+    @RequestMapping(value = "/", method = RequestMethod.POST, params = "SubmitTransaction")
     public String processTransaction(@Valid @ModelAttribute("transactionForm") TransactionForm transactionForm, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
             return "transaction";
@@ -70,7 +80,7 @@ public class HomeController {
         transactionService.processTransaction(transactionForm);
         model.addAttribute("successfulTransaction", "successfulTransaction");
         logger.info("Transaction succeed.");
-        return "transaction";
+        return "redirect:/";
     }
 
     @GetMapping("/logout")
@@ -81,4 +91,9 @@ public class HomeController {
         }
         return "redirect:/login";
     }
+
+//    @RequestMapping(value = "/", method = RequestMethod.GET, params = "ClearTransaction")
+//    public void clearTransactionHistory() {
+//
+//    }
 }

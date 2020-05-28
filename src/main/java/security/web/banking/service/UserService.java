@@ -1,9 +1,10 @@
 package security.web.banking.service;
 
+import security.web.banking.domain.Transaction;
 import security.web.banking.domain.User;
-import security.web.banking.forms.TransactionForm;
 import security.web.banking.forms.UserCreateForm;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface UserService {

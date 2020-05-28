@@ -39,8 +39,29 @@
                                 Invalid amount.
                             </div>
                         </div>
-                        <button type="submit" class="btn btn-md btn-primary btn-block">Submit</button>
+                        <button type="submit" class="btn btn-md btn-primary btn-block" name="SubmitTransaction">Submit</button>
                     </form>
+                </div>
+                <div class="panel-heading"><h3 class="panel-title"><strong>Transaction History</strong></h3></div>
+                <div class="panel-body">
+                    <table class="table table-striped text-center" th:fragment="cards-table">
+                        <thead th:if="${!#lists.isEmpty(allTransactions)}">
+                        <tr>
+                            <th class="text-center">UserName</th>
+                            <th class="text-center">Transaction Type</th>
+                            <th class="text-center">Amount</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <span th:if="${#lists.isEmpty(allTransactions)}" >No transaction so far.</span>
+                        <tr th:each="transaction: ${allTransactions}">
+                            <td th:text="${transaction.userName}" />
+                            <td th:text="${transaction.type}" />
+                            <td th:text="${#numbers.formatDecimal(transaction.amount,1,2)}" />
+                        </tr>
+                        </tbody>
+                    </table>
+                    <button type="submit" class="btn btn-md btn-primary btn-block" name="ClearTransaction">Clear transaction history</button>
                 </div>
             </div>
         </div>

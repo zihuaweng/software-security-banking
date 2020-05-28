@@ -22,10 +22,15 @@ public class Transaction {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
+    private String userName;
+
+    public Transaction() {}
+
     public Transaction(double amount, TransactionType type, User user) {
         this.amount = amount;
         this.type = type;
         this.user = user;
+        this.userName = user.getUsername();
     }
 
     public double getAmount() {
@@ -58,5 +63,9 @@ public class Transaction {
 
     public void setType(TransactionType type) {
         this.type = type;
+    }
+
+    public String getUserName() {
+        return userName;
     }
 }

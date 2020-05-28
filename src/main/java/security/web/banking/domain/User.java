@@ -1,6 +1,7 @@
 package security.web.banking.domain;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "users")

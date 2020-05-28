@@ -14,7 +14,7 @@ public class TransactionForm {
     @NotEmpty
     private long userId;
     private double userCurrentAmount;
-    private String numString;
+    private String string;
 
     public String getAmountString() {
         return amountString;
@@ -57,10 +57,10 @@ public class TransactionForm {
     }
 
     public String getNumString() {
-        return numString;
+        return string;
     }
 
-    public void setNumString(String numString) {
-        this.numString = numString;
+    public void setNumString(String string) {
+        this.string = string;
     }
 }

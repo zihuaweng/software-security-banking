@@ -50,17 +50,18 @@ public class TransactionServiceImpl implements TransactionService {
                 .orElseThrow(() -> new UsernameNotFoundException(String.format("User with userId=%s was not found", userId)));
 
         Transaction transaction = new Transaction(amount, type, user);
-        transactionRepository.save(transaction);
 
         switch (type) {
             case DEPOSIT:
                 user.setAmount(user.getAmount() + amount);
                 userRepository.save(user);
+                transactionRepository.save(transaction);
                 logger.info("Process deposit successfully.");
                 break;
             case WITHDRAW:
                 user.setAmount(user.getAmount() - amount);
                 userRepository.save(user);
+                transactionRepository.save(transaction);
                 logger.info("Process withdraw successfully.");
                 break;
         }
