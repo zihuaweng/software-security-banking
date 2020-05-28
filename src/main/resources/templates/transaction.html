@@ -20,7 +20,7 @@
                             <p>Current Amount</p>
                         </div>
                         <div>
-                            <p th:text="${currentUser.amount}"></p>
+                            <p th:text="${#numbers.formatDecimal(currentUser.amount,1,2)}"></p>
                         </div>
                         <div class="form-group">
                             <label>Transaction Type</label>

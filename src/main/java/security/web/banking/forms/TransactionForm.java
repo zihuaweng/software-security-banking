@@ -7,7 +7,6 @@ import javax.validation.constraints.NotEmpty;
 @Component
 public class TransactionForm {
 
-    @NotEmpty
     private String amountString;
     private double amount;
     @NotEmpty
@@ -15,6 +14,7 @@ public class TransactionForm {
     @NotEmpty
     private long userId;
     private double userCurrentAmount;
+    private String numString;
 
     public String getAmountString() {
         return amountString;
@@ -54,5 +54,13 @@ public class TransactionForm {
 
     public void setUserCurrentAmount(double userCurrentAmount) {
         this.userCurrentAmount = userCurrentAmount;
+    }
+
+    public String getNumString() {
+        return numString;
+    }
+
+    public void setNumString(String numString) {
+        this.numString = numString;
     }
 }

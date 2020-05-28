@@ -26,12 +26,12 @@ public class UserValidator implements Validator {
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "username", "NotEmpty");
         String userName = userCreateForm.getUsername();
         if (userName.length() < 1 || userName.length() > 127 || !userName.matches("[_\\-\\.0-9a-z]{1,127}")) {
-            errors.rejectValue("username", "Size.userForm.username");
+            errors.rejectValue("username", "Size.username");
             return;
         }
 
         if (userService.findUserByUsername(userName).isPresent()) {
-            errors.rejectValue("username", "Duplicate.userForm.username");
+            errors.rejectValue("username", "Duplicate.username");
             return;
         }
 
@@ -39,18 +39,18 @@ public class UserValidator implements Validator {
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "NotEmpty");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "passwordConfirm", "NotEmpty");
         if (userCreateForm.getPassword().length() < 1 || userCreateForm.getPassword().length() > 127) {
-            errors.rejectValue("password", "Size.userForm.password");
+            errors.rejectValue("password", "Size.password");
             return;
         }
         if (!userCreateForm.getPasswordConfirm().equals(userCreateForm.getPassword())) {
-            errors.rejectValue("passwordConfirm", "Diff.userForm.passwordConfirm");
+            errors.rejectValue("passwordConfirm", "Diff.passwordConfirm");
             return;
         }
 
         // Amount
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "amountString", "NotEmpty");
         if (!userCreateForm.getAmountString().matches("(^[1-9]\\d*(\\.\\d{1,2}$)?|^[0-9]\\.\\d{1,2}$)")) {
-            errors.rejectValue("amountString", "Value.userForm.amount");
+            errors.rejectValue("amountString", "Value.amount");
             return;
         }
         userCreateForm.setAmount(Double.parseDouble(userCreateForm.getAmountString()));
