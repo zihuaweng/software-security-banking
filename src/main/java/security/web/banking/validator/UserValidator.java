@@ -10,6 +10,10 @@ import security.web.banking.service.UserService;
 
 @Component
 public class UserValidator implements Validator {
+
+    private final double MAX_VALUE = 4294967295.99;
+    private final String REGEX = "([1-9]\\d*(\\.\\d{1,2}$)?|[0-9]\\.\\d{1,2}$)";
+
     @Autowired
     private UserService userService;
 
@@ -49,10 +53,15 @@ public class UserValidator implements Validator {
 
         // Amount
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "amountString", "NotEmpty");
-        if (!userCreateForm.getAmountString().matches("(^[1-9]\\d*(\\.\\d{1,2}$)?|^[0-9]\\.\\d{1,2}$)")) {
+        if (!userCreateForm.getAmountString().matches(REGEX)) {
             errors.rejectValue("amountString", "Value.amount");
             return;
         }
-        userCreateForm.setAmount(Double.parseDouble(userCreateForm.getAmountString()));
+        double amount = Double.parseDouble(userCreateForm.getAmountString());
+        if (amount >= MAX_VALUE) {
+            errors.rejectValue("amountString", "Value.amount");
+            return;
+        }
+        userCreateForm.setAmount(amount);
     }
 }
