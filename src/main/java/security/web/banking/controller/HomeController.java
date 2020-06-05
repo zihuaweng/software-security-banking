@@ -113,20 +113,21 @@ public class HomeController {
     @RequestMapping(value = "/", method = RequestMethod.POST, params = "clearTransaction")
     public String clearTransactionHistory(@CookieValue(value = "access_token") String accessToken,
                                           @AuthenticationPrincipal CustomUserDetails customUserDetails, Model model) {
-        if (!StringUtils.isEmpty(accessToken)) {
-            try {
-                Jwt jwt = Jwts.parser().setSigningKey(JWT_PASSWORD).parse(accessToken);
-                Claims claims = (Claims) jwt.getBody();
-                boolean root = Boolean.parseBoolean((String) claims.get("root"));
-                if (root) {
-                    transactionService.deleteTransactionsByUserId(customUserDetails.getId());
-                    logger.info("Clear transaction succeeded.");
-                    return "redirect:/";
-                }
-            } catch (Exception e) {
-                logger.info(e.toString());
-            }
-        }
+        // fix the second vulnerability
+//        if (!StringUtils.isEmpty(accessToken)) {
+//            try {
+//                Jwt jwt = Jwts.parser().setSigningKey(JWT_PASSWORD).parse(accessToken);
+//                Claims claims = (Claims) jwt.getBody();
+//                boolean root = Boolean.parseBoolean((String) claims.get("root"));
+//                if (root) {
+//                    transactionService.deleteTransactionsByUserId(customUserDetails.getId());
+//                    logger.info("Clear transaction succeeded.");
+//                    return "redirect:/";
+//                }
+//            } catch (Exception e) {
+//                logger.info(e.toString());
+//            }
+//        }
         model.addAttribute("error", "You are not allowed to clear transactions");
         return "transaction";
     }
