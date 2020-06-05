@@ -31,8 +31,6 @@ public class TransactionValidator implements Validator {
             } else {
                 transactionForm.setAmount(Double.parseDouble(transactionForm.getAmountString()));
             }
-        } else if (transactionForm.getNumString() != null && TransactionUtils.valid(transactionForm.getNumString())) {
-                transactionForm.setAmount(Double.parseDouble(transactionForm.getNumString()));
         } else {
             errors.rejectValue("amountString", "Value.amount");
         }

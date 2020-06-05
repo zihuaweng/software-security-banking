@@ -14,7 +14,6 @@ public class TransactionForm {
     @NotEmpty
     private long userId;
     private double userCurrentAmount;
-    private String string;
 
     public TransactionForm() {}
 
@@ -58,16 +57,7 @@ public class TransactionForm {
         this.userCurrentAmount = userCurrentAmount;
     }
 
-    public String getNumString() {
-        return string;
-    }
-
-    public void setNumString(String string) {
-        this.string = string;
-    }
-
     public void reset() {
         this.amountString = null;
-        this.string = null;
     }
 }
